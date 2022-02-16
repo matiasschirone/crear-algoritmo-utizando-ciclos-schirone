@@ -17,6 +17,7 @@ let precioTotalVenta = 0;
 let cantidadProductosComprados = parseInt(prompt('ingrese la cantidad de productos distintos que desea comprar'))
 
 for(let i = 0; i < cantidadProductosComprados; i++){
+   
 
     let nombreCompra = prompt("ingrese el nombre del producto a comprar:");
 
