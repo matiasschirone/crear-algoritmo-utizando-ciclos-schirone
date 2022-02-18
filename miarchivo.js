@@ -14,55 +14,45 @@ alert("Hola estos son los sectores que te podemos ofrecer: \n" + nombreProductoA
 let cantidadComprada
 let precioTotalVenta = 0;
 
+function stockInsuficiente(stock){
+    alert("No tenemos suficiente stock del producto, puede comprar hasta " + stock + ' unidades')
+}
+function stocksuficiente(stock, precio, nombre){
+    stock -= cantidadComprada;
+    precioTotalVenta += cantidadComprada * precio;
+    console.log("quedan " + stock + " nombre");
+}
+function compra(stock, precio, nombre){
+    cantidadComprada = parseInt(prompt("ingrese cantidad que quiere comprar"));
+    if (cantidadComprada <= stock, precio, nombre){
+        stocksuficiente(stock, precio, nombre)  
+    }
+    else{
+        stockInsuficiente(stock)
+    }
+}
 let cantidadProductosComprados = parseInt(prompt('ingrese la cantidad de productos distintos que desea comprar'))
 
 for(let i = 0; i < cantidadProductosComprados; i++){
    
-
     let nombreCompra = prompt("ingrese el nombre del producto a comprar:");
 
     if (nombreCompra == nombreProductoA){
-        cantidadComprada = parseInt(prompt("ingrese cantidad que quiere comprar"));
-        if (cantidadComprada <= stockProductoA){
-            stockProductoA = stockProductoA - cantidadComprada;
-            precioTotalVenta += cantidadComprada * precioProductoA;
-            console.log("quedan " + stockProductoA + " Campo");
-           
-        }
-        else{
-             alert("No tenemos suficiente stock del producto, puede comprar hasta " + stockProductoA + ' unidades')
-        }
+        compra(stockProductoA, precioProductoA, nombreProductoA)
     }
     else if (nombreCompra == nombreProductoB){
-        if (cantidadComprada <= stockProductoB){
-             cantidadComprada = parseInt(prompt("ingrese cantidad que quiere comprar"));
-             stockProductoB = stockProductoB - cantidadComprada;
-             precioTotalVenta += cantidadComprada * precioProductoB;
-             console.log("quedan " + stockProductoA + " Popular");
-             
-        }
-        else{
-        alert("No tenemos suficiente stock del producto, puede comprar hasta " + stockProductoB + ' unidades')
-        }
+        compra(stockProductoB, precioProductoB, nombreProductoB)
     }
     else if (nombreCompra == nombreProductoC){
-        if (cantidadComprada <= stockProductoC){
-             cantidadComprada = parseInt(prompt("ingrese cantidad que quiere comprar"));
-             stockProductoC = stockProductoB - cantidadComprada;
-             precioTotalVenta += cantidadComprada * precioProductoC;
-             console.log("quedan " + stockProductoA + " Platea");
-            
-        }
-        else{
-        alert("No tenemos suficiente stock del producto, puede comprar hasta " + stockProductoB + ' unidades')
-        }
+        compra(stockProductoC, precioProductoC, nombreProductoC)
+        
     }
     else{
-         alert('No tenemos ese producto')
+        alert('No tenemos ese producto')
     }
 }
-
 alert("El precio total de su compra es de: $" + precioTotalVenta);
+
 
 
 
