@@ -15,6 +15,9 @@ const listadoSectores = [productoA, productoB, productoC];
 for(const producto of listadoSectores){
    console.log(producto.nombre + " " + producto.precio + " " + producto.stock)
 }
+listadoSectores.push( new Producto('vip', 8, 30000));
+listadoSectores.push( new Producto('familiares', 6, 0));
+
  
 let cantidadComprada;
 let precioTotalVenta = 0;
