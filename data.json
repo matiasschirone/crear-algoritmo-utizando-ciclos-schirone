@@ -1,0 +1,66 @@
+[
+    {
+      "id": 1,
+      "nombre": "cort stratocaster",
+      "stock": 10,
+      "precio": 75800,
+      "imagen": "./imagenes/descarga1.jpg",
+      "categoria": "guitarra"
+    },
+    {
+      "id": 2,
+      "nombre": "Fender telecarter",
+      "stock": 3,
+      "precio": 450000,
+      "imagen": "./imagenes/images2.jpg",
+      "categoria": "guitarra"
+    },
+    {
+      "id": 3,
+      "nombre": "Gibson lp",
+      "stock": 15,
+      "precio": 450000,
+      "imagen": "./imagenes/images3.jpg",
+      "categoria": "guitarra"
+    },
+    {
+      "id": 4,
+      "nombre": "Ltd",
+      "stock": 18,
+      "precio": 120000,
+      "imagen": "./imagenes/images.jpg",
+      "categoria": "guitarra"
+    },
+    {
+      "id": 5,
+      "nombre": "Amplificador Marshall",
+      "stock": 20,
+      "precio": 125000,
+      "imagen": "./imagenes/descarga2.jpg",
+      "categoria": "amplificador"
+    },
+    {
+      "id": 6,
+      "nombre": "Head rush",
+      "stock": 60,
+      "precio": 120000,
+      "imagen": "./imagenes/descarga5.jpg",
+      "categoria": "pedalera"
+    },
+    {
+      "id": 7,
+      "nombre": "Amplificador Fender 60ac",
+      "stock": 26,
+      "precio": 90000,
+      "imagen": "./imagenes/images4.jpg",
+      "categoria": "amplicador"
+    },
+    {
+      "id": 8,
+      "nombre": "Amplificador Fender 100",
+      "stock": 30,
+      "precio": 140000,
+      "imagen": "./imagenes/images6.jpg",
+      "categoria": "amplicador"
+    }
+]

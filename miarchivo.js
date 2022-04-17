@@ -1,94 +1,184 @@
+const cards = document.getElementById("cards");
+const items = document.getElementById("items");
+const footer = document.getElementById("footer");
+const templateCard = document.getElementById("template-card").content;
+const templateFooter = document.getElementById("template-footer").content;
+const templateCarrito = document.getElementById("template-carrito").content;
+const fragment = document.createDocumentFragment();
+let carrito = {};
 
+document.addEventListener("DOMContentLoaded", () => {
+  fetchData();
+});
+cards.addEventListener("click", (e) => {
+  addCarrito(e);
+});
 
-function Producto (nombre, stock, precio){
-   this.nombre = nombre;
-   this.stock = stock;
-   this.precio = precio;
-}
+items.addEventListener("click", (e) => {
+  btnAccion(e);
+});
 
-const productoA = new Producto('Campo', 100, 1000);
-const productoB = new Producto('Popular', 80, 1500);
-const productoC = new Producto('Platea', 60, 2000);
+const fetchData = async () => {
+  try {
+    const res = await fetch("data.json");
+    const data = await res.json();
+    //console.log(data)
+    pintarCards(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const listadoSectores = [productoA, productoB, productoC];
+const pintarCards = (data) => {
+  //console.log(data);
+  data.forEach((producto) => {
+    templateCard.querySelector("h5").textContent = producto.nombre;
+    templateCard.querySelector("p").textContent = producto.precio;
+    templateCard.querySelector("img").setAttribute("src", producto.imagen);
+    templateCard.querySelector(".btn-dark").dataset.id = producto.id;
 
-for(const producto of listadoSectores){
-   console.log(producto.nombre + " " + producto.precio + " " + producto.stock)
-}
-listadoSectores.push( new Producto('vip', 8, 30000));
-listadoSectores.push( new Producto('familiares', 6, 0));
+    const clone = templateCard.cloneNode(true);
+    fragment.appendChild(clone);
+  });
+  cards.appendChild(fragment);
+};
+const addCarrito = (e) => {
+  //console.log(e.target)
+  //console.log(e.target.classList.contains('btn-dark'))
+  if (e.target.classList.contains("btn-dark")) {
+    setCarrito(e.target.parentElement);
+  }
+  e.stopPropagation();
+};
 
- 
-let cantidadComprada;
-let precioTotalVenta = 0;
- 
- 
-alert(`Hola estos son los sectores que te podemos ofrecer:
-           ${productoA.nombre}
-           ${productoB.nombre}
-           ${productoC.nombre}
-(Maximo 6 tickets por persona)
-`)
- 
-function stockInsuficiente(stock) {
-   alert("No tenemos suficiente stock del producto, puede comprar hasta " + stock + ' unidades');
-}
-function stockSuficiente(stock, precio, nombre) {
-   stock -= cantidadComprada;
-   precioTotalVenta += cantidadComprada * precio;
-   console.log("quedan " + stock + " " + nombre + " en stock");
-}
-function compra(stock, precio, nombre) {
-   cantidadComprada = parseInt(prompt(`Ingrese cantidad que quiere comprar del sector ${nombre}`));
-   if (cantidadComprada <= stock) {
-       stockSuficiente(stock, precio, nombre);
-   }
-   else {
-       stockInsuficiente(stock);
-   }
-}
- 
-function cuotas() {
-   let cuotas = parseInt(prompt("Ingrese cantidad de cuotas"));
-   let precioCuota = precioTotalVenta / cuotas;
-   alert("El precio de la cuota es de $" + precioCuota.toFixed(2));
-}
- 
-let cantidadProductosComprados = parseInt(prompt('Ingrese la cantidad de productos distintos que desea comprar'));
- 
-for (let i = 0; i < cantidadProductosComprados; i++) {
- 
-   let nombreCompra = prompt("Ingrese el nombre del producto a comprar:");
- 
-   if (nombreCompra.toLowerCase() === listadoSectores[0].nombre.toLowerCase()) {
-       compra(productoA.stock, productoA.precio, productoA.nombre);
-   }
-   else if (nombreCompra.toLowerCase() === listadoSectores[1].nombre.toLowerCase()) {
-       compra(productoB.stock, productoB.precio, productoB.nombre);
-   }
-   else if (nombreCompra.toLowerCase() === listadoSectores[2].nombre.toLowerCase()) {
-       compra(productoC.stock, productoC.precio, productoC.nombre);
- 
-   }
-   else {
-       alert('No tenemos ese producto');
-   }
-}
- 
-let respuestaCuotas = prompt("¿Desea pagar en cuotas? Si/No");
- 
-if (respuestaCuotas.toLowerCase() === "si") {
-   cuotas();
-}
-else if (respuestaCuotas.toLowerCase() === "no") {
-   alert("El precio total de la compra es de $" + precioTotalVenta);
-} 
-else {
-   alert("Ingrese una respuesta valida");
-}
+const setCarrito = (objeto) => {
+  //console.log(objeto)
+  const producto = {
+    id: objeto.querySelector(".btn-dark").dataset.id,
+    nombre: objeto.querySelector("h5").textContent,
+    precio: objeto.querySelector("p").textContent,
+    cantidad: 1,
+  };
+  if (carrito.hasOwnProperty(producto.id)) {
+    producto.cantidad = carrito[producto.id].cantidad + 1;
+  }
 
-alert("¡Gracias por su compra!")
+  carrito[producto.id] = { ...producto };
+  pintarCarrito();
+};
+const pintarCarrito = () => {
+  console.log(carrito);
+  items.innerHTML = " ";
+  Object.values(carrito).forEach((producto) => {
+    templateCarrito.querySelector("th").textContent = producto.id;
+    templateCarrito.querySelectorAll("td")[0].textContent = producto.nombre;
+    templateCarrito.querySelectorAll("td")[1].textContent = producto.cantidad;
+    templateCarrito.querySelector(".btn-info").dataset.id = producto.id;
+    templateCarrito.querySelector(".btn-danger").dataset.id = producto.id;
+    templateCarrito.querySelector("span").textContent =
+      producto.cantidad * producto.precio;
 
+    const clone = templateCarrito.cloneNode(true);
+    fragment.appendChild(clone);
+  });
+  items.appendChild(fragment);
 
+  pintarFooter();
+};
+
+const pintarFooter = () => {
+  footer.innerHTML = " ";
+  if (Object.keys(carrito).length === 0) {
+    footer.innerHTML =
+      '<th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>';
+    return;
+  }
+  const nCantidad = Object.values(carrito).reduce(
+    (acc, { cantidad }) => acc + cantidad,
+    0
+  );
+  const nPrecio = Object.values(carrito).reduce(
+    (acc, { cantidad, precio }) => acc + cantidad * precio,
+    0
+  );
+
+  templateFooter.querySelectorAll("td")[0].textContent = nCantidad;
+  templateFooter.querySelector("span").textContent = nPrecio;
+
+  const clone = templateFooter.cloneNode(true);
+  fragment.appendChild(clone);
+  footer.appendChild(fragment);
+
+  /*const btnVaciar = document.getElementById("vaciar-carrito");
+  btnVaciar.addEventListener("click", () => {
+    carrito = {};
+    pintarCarrito();
+  });*/
+  const btnVaciar = document.getElementById("vaciar-carrito");
+  function vaciarCarrito() {
+    Swal.fire({
+      title: "estas seguro?",
+      text: "Estas por vaciar el carrito",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, borrar todo!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        carrito = [];
+        btnVaciar.disabled = true;
+        btnCompra.disabled = true;
+        carrito = {};
+        pintarCarrito();
+  
+        Swal.fire(
+          "Borrado!",
+          "Los articulos del carrito han sido borrados.",
+          "success"
+        );
+      }
+    });
+  }
+  btnVaciar.addEventListener("click", vaciarCarrito );
+
+const btnCompra = document.getElementById('boton-comprar')
+function gracias() {
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    text: "Gracias po su compra",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  carrito = {};
+  pintarCarrito();
+}
+btnCompra.addEventListener("click", gracias);
+  
+};
+const btnAccion = (e) => {
+  console.log(e.target);
+  if (e.target.classList.contains("btn-info")) {
+    //carrito[e.target.dataset.id]
+    const producto = carrito[e.target.dataset.id];
+    producto.cantidad++;
+    //producto.cantidad = carrito[e.target.dataset.id].cantidad + 1;
+    carrito[e.target.dataset.id] = { ...producto };
+
+    pintarCarrito();
+  }
+  if (e.target.classList.contains("btn-danger")) {
+    const producto = carrito[e.target.dataset.id];
+    producto.cantidad--;
+    if (producto.cantidad === 0) {
+      delete carrito[e.target.dataset.id];
+    } else {
+      carrito[e.target.dataset.id] = { ...producto };
+    }
+    pintarCarrito();
+  }
+  e.stopPropagation();
+};
 
 
