@@ -79,6 +79,7 @@ const pintarCarrito = () => {
     templateCarrito.querySelector(".btn-danger").dataset.id = producto.id;
     templateCarrito.querySelector("span").textContent =
       producto.cantidad * producto.precio;
+    
 
     const clone = templateCarrito.cloneNode(true);
     fragment.appendChild(clone);
@@ -88,22 +89,17 @@ const pintarCarrito = () => {
   pintarFooter();
 };
 
-const all = document.querySelector('all');
-const guitarras = document.querySelector('cuerdas');
-const amplificadores = document.querySelector('amplis');
-const pedales = document.querySelector('pedals');
+//const all = document.querySelector('all');
+//const guitarras = document.querySelector('cuerdas').dataset.id = producto.id;
+//const amplificadores = document.querySelector('amplis');
+//const pedales = document.querySelector('pedals');
 
 //all.addEventListener('click', )
 //guitarras.addEventListener('click', renderGuitarra )
 /*amplificadores.addEventListener('click', )
 pedales.addEventListener('click', )*/
 
-/*function renderProductos(){
-  filtroCarrito.forEach((item) => {
-    const miItem = fetchData.filter((itemBaseDatos) => {
-      return itemBaseDatos.id === parseInt(item);
-    });
-  };*/
+
 
   function renderGuitarra(){
 const listaCategoria = Data.filter(x => x.categoria === 'guitarra')
