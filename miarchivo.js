@@ -5,6 +5,7 @@ const templateCard = document.getElementById("template-card").content;
 const templateFooter = document.getElementById("template-footer").content;
 const templateCarrito = document.getElementById("template-carrito").content;
 const fragment = document.createDocumentFragment();
+const filtro = document.getElementById("category_list");
 let carrito = {};
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -36,6 +37,9 @@ const pintarCards = (data) => {
     templateCard.querySelector("p").textContent = producto.precio;
     templateCard.querySelector("img").setAttribute("src", producto.imagen);
     templateCard.querySelector(".btn-dark").dataset.id = producto.id;
+    //fitro.querySelector("category_list").textContent = producto.categoria;
+    //filtro.querySelector("amplificador").textContent = producto.categoria;
+    //templateCard:querySelector("pedalera").textContent = producto.categoria;
 
     const clone = templateCard.cloneNode(true);
     fragment.appendChild(clone);
@@ -86,6 +90,25 @@ const pintarCarrito = () => {
   pintarFooter();
 };
 
+/*const all = document.querySelector('all');
+const guitarras = document.querySelector('cuerdas');
+const amplificadores = document.querySelector('amplis');
+const pedales = document.querySelector('pedals');
+
+all.addEventListener('click', )
+guitarras.addEventListener('click', )
+amplificadores.addEventListener('click', )
+pedales.addEventListener('click', )
+
+function renderProductos(){
+  filtroCarrito.forEach((item) => {
+    const miItem = fetchData.filter((itemBaseDatos) => {
+      return itemBaseDatos.id === parseInt(item);
+    });
+  };*/
+
+
+
 const pintarFooter = () => {
   footer.innerHTML = " ";
   if (Object.keys(carrito).length === 0) {
@@ -109,11 +132,7 @@ const pintarFooter = () => {
   fragment.appendChild(clone);
   footer.appendChild(fragment);
 
-  /*const btnVaciar = document.getElementById("vaciar-carrito");
-  btnVaciar.addEventListener("click", () => {
-    carrito = {};
-    pintarCarrito();
-  });*/
+ 
   const btnVaciar = document.getElementById("vaciar-carrito");
   function vaciarCarrito() {
     Swal.fire({
@@ -147,9 +166,9 @@ function gracias() {
   Swal.fire({
     position: "top-end",
     icon: "success",
-    text: "Gracias po su compra",
+    text: "Gracias por su compra",
     showConfirmButton: false,
-    timer: 1500,
+    timer: 5500,
   });
   carrito = {};
   pintarCarrito();
