@@ -7,8 +7,9 @@ const templateCarrito = document.getElementById("template-carrito").content;
 const fragment = document.createDocumentFragment();
 
 let carrito = {};
+let  dataItems = [];
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEvezntListener("DOMContentLoaded", () => {
   fetchData();
 });
 cards.addEventListener("click", (e) => {
@@ -25,6 +26,7 @@ const fetchData = async () => {
     const data = await res.json();
     //console.log(data)
     pintarCards(data);
+    dataItems = data;
   } catch (error) {
     console.log(error);
   }
@@ -50,6 +52,7 @@ const addCarrito = (e) => {
   if (e.target.classList.contains("btn-dark")) {
     setCarrito(e.target.parentElement);
   }
+  
   e.stopPropagation();
 };
 
@@ -89,37 +92,19 @@ const pintarCarrito = () => {
   pintarFooter();
 };
 
-//const all = document.querySelector('all');
-//const guitarras = document.querySelector('cuerdas').dataset.id = producto.id;
-//const amplificadores = document.querySelector('amplis');
-//const pedales = document.querySelector('pedals');
 
-//all.addEventListener('click', )
-//guitarras.addEventListener('click', renderGuitarra )
-/*amplificadores.addEventListener('click', )
-pedales.addEventListener('click', )*/
+const filtrarObjetos = (e) => {
 
+  if(e !== 'todo'){
+    objetoFiltrado = dataItems.filter(item => item.categoria === e)
 
-
-  function renderGuitarra(){
-const listaCategoria = Data.filter(x => x.categoria === 'guitarra')
-const pintarCards = (data) => {
-  //console.log(data);
-  data.forEach((producto) => {
-    templateCard.querySelector("h5").textContent = producto.nombre;
-    templateCard.querySelector("p").textContent = producto.precio;
-    templateCard.querySelector("img").setAttribute("src", producto.imagen);
-    templateCard.querySelector(".btn-dark").dataset.id = producto.id;
-    templateCard.querySelector("h6").textContent = producto.categoria;
-    
-    const clone = templateCard.cloneNode(true);
-    fragment.appendChild(clone);
-  });
-  cards.appendChild(fragment);
-};
-
+    cards.innerHTML = " ";
+    pintarCards(objetoFiltrado)
+  } else{
+    cards.innerHTML = " ";
+    pintarCards(dataItems);
   }
-
+};
 
 
 const pintarFooter = () => {
@@ -213,4 +198,4 @@ const btnAccion = (e) => {
   e.stopPropagation();
 };
 
-
+ 
