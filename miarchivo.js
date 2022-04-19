@@ -57,6 +57,16 @@ const addCarrito = (e) => {
   if (e.target.classList.contains("btn-dark")) {
     setCarrito(e.target.parentElement);
   }
+    if("btn-dark") {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      text: "¡Se Ha agregado el producto al carrito!",
+      showConfirmButton: false,
+      timer: 2000,
+      
+    });
+  };
   
   e.stopPropagation();
 };
