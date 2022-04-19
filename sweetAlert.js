@@ -74,21 +74,21 @@
 			confirmButtonText: 'confirmar',
 			showLoaderOnConfirm: true,
 			
-				})
+				});			
 			
-			async() => {const { value: email } = await Swal.fire({
-					title: 'Recibiras las ultimas novedades',
-					input: 'email',
-					inputLabel: 'Your email address',
-					inputPlaceholder: 'Enter your email address'
-				  })
-				  
-				  if (email) {
-					Swal.fire(`Ingresaste: ${email}`)
-					
-				  }
-				}
     }
+	
+		const { value: email } = await Swal.fire({
+			title: 'Recibiras las ultimas novedades',
+			input: 'email',
+			inputLabel: 'Your email address',
+			inputPlaceholder: 'Enter your email address'
+		  })
+		  
+		  if (email){
+			await Swal.fire(`Ingresaste: ${email}`)
+			
+		  }
+		
 }) ()
-
 
