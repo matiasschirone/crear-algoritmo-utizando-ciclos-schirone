@@ -9,8 +9,13 @@ const fragment = document.createDocumentFragment();
 let carrito = {};
 let  dataItems = [];
 
-document.addEvezntListener("DOMContentLoaded", () => {
-  fetchData();
+document.addEventListener("DOMContentLoaded", () => {
+  fetchData()
+  if(localStorage.getItem('carrito')){
+    carrito = JSON.parse(localStorage.getItem('carrito'));
+    pintarCarrito();
+  };
+
 });
 cards.addEventListener("click", (e) => {
   addCarrito(e);
@@ -82,14 +87,14 @@ const pintarCarrito = () => {
     templateCarrito.querySelector(".btn-danger").dataset.id = producto.id;
     templateCarrito.querySelector("span").textContent =
       producto.cantidad * producto.precio;
-    
-
     const clone = templateCarrito.cloneNode(true);
     fragment.appendChild(clone);
   });
   items.appendChild(fragment);
 
   pintarFooter();
+
+  localStorage.setItem('carrito', JSON.stringify(carrito))
 };
 
 
